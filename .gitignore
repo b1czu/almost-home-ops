@@ -1,0 +1,16 @@
+.env
+.envrc
+# Terraform
+.terraform
+*.tfstate
+*.tfstate.*
+*.plan
+# k8s
+kubeconfig
+.decrypted~*.yaml
+.config.env
+*.agekey
+*.pub
+*.key
+# Ansible
+.venv*
