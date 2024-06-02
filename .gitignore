@@ -14,3 +14,4 @@ kubeconfig
 *.key
 # Ansible
 .venv*
+ansible/inventory/hosts.yaml
