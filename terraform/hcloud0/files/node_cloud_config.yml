@@ -1,0 +1,39 @@
+#cloud-config
+ssh_pwauth: false
+users:
+  - name: user
+    lock_passwd: true
+    groups: [adm, audio, cdrom, dialout, dip, floppy, netdev, plugdev, sudo, video]
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - ${key}
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - ca-certificates
+  - git
+  - curl
+  - wget
+  - ntp
+  - fail2ban
+  - vim
+  - tmux
+  - htop
+
+package_reboot_if_required: true
+
+runcmd:
+  - sed -i 's/dns-nameservers.*/dns-nameservers 2a01:4f9:c010:3f02::1 2a00:1098:2b::1 2a01:4f8:c2c:123f::1/' /etc/network/interfaces.d/50-cloud-init
+  - systemctl restart networking.service
+  - apt install -f -y
+  - printf "[sshd]\nenabled = true\n" > /etc/fail2ban/jail.local
+  - sed -i '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i '/^PasswordAuthentication/s/^.*$/PasswordAuthentication no/' /etc/ssh/sshd_config
+  - sed -i '/^X11Forwarding/s/^.*$/X11Forwarding no/' /etc/ssh/sshd_config
+  - systemctl restart ssh.service
+  - systemctl enable --now fail2ban
+  - apt clean
+  - apt auto-clean
