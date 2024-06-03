@@ -1,0 +1,44 @@
+---
+# https://docs.k3s.io/helm
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  # renovate: datasource=helm
+  repo: https://helm.cilium.io/
+  chart: cilium
+  version: 1.14.0
+  targetNamespace: kube-system
+  bootstrap: true
+  valuesContent: |-
+    bpf:
+      masquerade: true
+    cluster:
+      name: hcloud0
+      id: 1
+    containerRuntime:
+      integration: containerd
+      socketPath: /var/run/k3s/containerd/containerd.sock
+    encryption:
+      enabled: true
+      type: wireguard
+    hubble:
+      enabled: false
+    ipam:
+      mode: kubernetes
+    ipv4NativeRoutingCIDR: "{{ cluster_cidr }}"
+    ipv6NativeRoutingCIDR: "{{ cluster_cidr_v6 }}"
+    ipv6:
+      enabled: true
+    k8sServiceHost: "{{ kube_api_addr }}"
+    k8sServicePort: 6443
+    kubeProxyReplacement: strict
+    kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+    operator:
+      replicas: 1
+      rollOutPods: true
+    rollOutCiliumPods: true
+    securityContext:
+      privileged: true

@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data:
+  TIMEZONE: "Europe/Warsaw"
+  COREDNS_ADDR: "10.12.0.10"
+  KUBE_API_ADDR: "10.10.1.11"
+  CLUSTER_CIDR: "10.11.0.0/16"
+  SERVICE_CIDR: "10.12.0.0/16"
+  NODE_CIDR: "10.10.1.0/24"
+  CLUSTER_CIDR_V6: "fd78:c889:47fb:10::/60"
+  SERVICE_CIDR_V6: "fd78:c889:47fb:e0::/112"

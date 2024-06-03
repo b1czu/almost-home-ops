@@ -1,0 +1,10 @@
+---
+timezone: "Europe/Warsaw"
+github_username: "b1czu"
+coredns_addr: "10.12.0.10"
+kube_api_addr: "10.10.1.11"
+cluster_cidr: "10.11.0.0/16"
+service_cidr: "10.12.0.0/16"
+node_cidr: "10.10.1.0/24"
+cluster_cidr_v6: "fd78:c889:47fb:10::/60"
+service_cidr_v6: "fd78:c889:47fb:e0::/112"
